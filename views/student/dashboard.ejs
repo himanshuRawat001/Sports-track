@@ -1,0 +1,178 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/studentSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <!-- Top Header Bar -->
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-400 truncate">Student Portal / Dashboard</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="/student/sports" class="btn-outline px-3.5 py-1.5 text-xs">Explore Sports</a>
+        <a href="/student/profile" class="btn-electric px-3.5 py-1.5 text-xs">View Profile</a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+      <!-- Welcome Header -->
+      <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <p class="text-sm text-blue-400 font-medium">Welcome back, <%= student.name %></p>
+          <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Athletic Performance Overview</h1>
+          <p class="mt-1 text-sm text-slate-400">
+            <span class="font-mono-num text-slate-300"><%= student.id %></span>
+            <span class="mx-1.5" aria-hidden="true">&middot;</span>
+            <span><%= student.department %>, <%= student.year %></span>
+            <span class="mx-1.5" aria-hidden="true">&middot;</span>
+            <span>Campus Rank <strong class="text-white font-mono-num">#<%= studentRank %></strong></span>
+          </p>
+        </div>
+        <div class="text-sm text-slate-300">
+          <span class="text-slate-500">Registered Sports:</span>
+          <span class="ml-1 font-medium text-white"><%= student.registeredSports.join(' · ') %></span>
+        </div>
+      </section>
+
+      <!-- KPI Metric Grid -->
+      <section class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Matches Played</p>
+          <p class="mt-2 text-2xl sm:text-3xl font-bold text-white font-display font-mono-num"><%= student.matchesPlayed %></p>
+          <p class="mt-1 text-xs text-slate-500">2026 Season</p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Matches Won</p>
+          <p class="mt-2 text-2xl sm:text-3xl font-bold text-emerald-400 font-display font-mono-num"><%= student.wins %></p>
+          <p class="mt-1 text-xs text-slate-500">Verified fixtures</p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Matches Lost</p>
+          <p class="mt-2 text-2xl sm:text-3xl font-bold text-rose-400 font-display font-mono-num"><%= student.losses %></p>
+          <p class="mt-1 text-xs text-slate-500">All formats</p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Win Percentage</p>
+          <p class="mt-2 text-2xl sm:text-3xl font-bold text-blue-400 font-display font-mono-num"><%= student.winPercentage %>%</p>
+          <p class="mt-1 text-xs text-slate-500">Consistency rate</p>
+        </div>
+        <div class="track-card p-5 col-span-2 lg:col-span-1">
+          <p class="text-xs text-slate-400">Registered Sports</p>
+          <p class="mt-2 text-2xl sm:text-3xl font-bold text-white font-display font-mono-num"><%= student.registeredSports.length %></p>
+          <p class="mt-1 text-xs text-slate-500"><%= student.primarySport %> primary</p>
+        </div>
+      </section>
+
+      <!-- Charts Row -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="track-card p-6 lg:col-span-8">
+          <div class="flex items-center justify-between gap-4 mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-white">Performance Rating Progression</h2>
+              <p class="text-xs text-slate-400">Monthly match index across June – November 2026</p>
+            </div>
+            <span class="text-xs font-mono-num text-blue-400">Peak: 93/100</span>
+          </div>
+          <div class="chart-box">
+            <canvas
+              id="studentPerformanceChart"
+              data-history='<%- JSON.stringify(student.performanceHistory) %>'
+            ></canvas>
+          </div>
+        </div>
+
+        <div class="track-card p-6 lg:col-span-4 flex flex-col justify-between">
+          <div>
+            <h2 class="text-lg font-bold text-white">Win / Loss Breakdown</h2>
+            <p class="text-xs text-slate-400">Season record (<%= student.matchesPlayed %> matches)</p>
+          </div>
+          <div class="chart-box flex items-center justify-center my-2">
+            <canvas
+              id="studentWinLossChart"
+              data-wins="<%= student.wins %>"
+              data-losses="<%= student.losses %>"
+            ></canvas>
+          </div>
+          <div class="grid grid-cols-2 gap-3 pt-3 border-t border-white/10 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Wins</span>
+              <span class="font-mono-num font-semibold text-emerald-400"><%= student.wins %></span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Losses</span>
+              <span class="font-mono-num font-semibold text-rose-400"><%= student.losses %></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Matches & Recent Achievements -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="track-card p-6 lg:col-span-7">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-lg font-bold text-white">Recent Campus Matches</h2>
+            <a href="/student/matches" class="text-xs font-medium text-blue-400 hover:text-blue-300">All Fixtures</a>
+          </div>
+          <div class="track-table-wrap">
+            <table class="track-table">
+              <thead>
+                <tr>
+                  <th>Sport</th>
+                  <th>Matchup</th>
+                  <th>Date</th>
+                  <th class="text-right">Status / Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentMatches.forEach((match) => { %>
+                  <tr>
+                    <td class="font-medium text-white"><%= match.sport %></td>
+                    <td>
+                      <span class="text-slate-200"><%= match.teamA %></span>
+                      <span class="text-slate-500 mx-1">vs</span>
+                      <span class="text-slate-200"><%= match.teamB %></span>
+                    </td>
+                    <td class="font-mono-num text-xs text-slate-400 whitespace-nowrap"><%= match.formattedDate %></td>
+                    <td class="text-right font-mono-num text-xs">
+                      <span class="<%= match.status === 'Completed' ? 'text-emerald-400' : (match.status === 'Ongoing' ? 'text-blue-400' : 'text-amber-400') %>">
+                        <%= match.scoreDisplay %>
+                      </span>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="track-card p-6 lg:col-span-5">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-lg font-bold text-white">Recent Achievements</h2>
+            <a href="/student/profile" class="text-xs font-medium text-blue-400 hover:text-blue-300">Full Profile</a>
+          </div>
+          <div class="space-y-4">
+            <% student.achievements.forEach((item) => { %>
+              <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="text-sm font-semibold text-white"><%= item.title %></h3>
+                  <span class="text-xs font-mono-num text-slate-500 shrink-0"><%= item.date %></span>
+                </div>
+                <p class="mt-1 text-xs text-slate-400"><%= item.event %> &middot; <span class="text-blue-400 font-medium"><%= item.metric %></span></p>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

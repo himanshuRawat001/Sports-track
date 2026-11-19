@@ -1,0 +1,135 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/adminSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Admin Portal / Manage Matches</p>
+      </div>
+      <button type="button" id="openAddMatchModalBtn" class="btn-electric px-3.5 py-1.5 text-xs">
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        <span>Add Match</span>
+      </button>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Manage Match Fixtures</h1>
+          <p class="mt-1 text-sm text-slate-400">Schedule new matches and monitor fixture status across campus venues.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="adminMatchStatusFilter" class="track-select px-3.5 py-2 text-xs">
+            <option value="All">All Statuses</option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Matches Table -->
+      <div class="track-card overflow-hidden">
+        <div class="track-table-wrap">
+          <table class="track-table" id="adminMatchesTable">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Sport</th>
+                <th>Team A</th>
+                <th>Team B</th>
+                <th>Date</th>
+                <th>Venue</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminMatchesTbody">
+              <% matches.forEach((m) => { %>
+                <tr class="admin-match-row" data-status="<%= m.status %>">
+                  <td class="font-mono-num text-xs text-slate-400"><%= m.id %></td>
+                  <td class="font-medium text-white"><%= m.sport %></td>
+                  <td><%= m.teamA %></td>
+                  <td><%= m.teamB %></td>
+                  <td class="font-mono-num text-xs text-slate-400 whitespace-nowrap"><%= m.formattedDate %></td>
+                  <td class="text-xs text-slate-300"><%= m.venue %></td>
+                  <td>
+                    <span class="text-xs font-semibold <%= m.status === 'Ongoing' ? 'text-blue-400' : (m.status === 'Upcoming' ? 'text-amber-400' : 'text-emerald-400') %>">
+                      <%= m.status %>
+                    </span>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Schedule New Match Modal -->
+<div id="addMatchModal" class="track-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="addMatchModalTitle">
+  <div class="track-card w-full max-w-lg p-6 space-y-5 shadow-2xl">
+    <div class="flex items-center justify-between">
+      <h2 id="addMatchModalTitle" class="text-xl font-bold text-white">Schedule New Match</h2>
+      <button type="button" id="closeAddMatchModalBtn" class="p-1 text-slate-400 hover:text-white" aria-label="Close modal">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <form id="adminAddMatchForm" class="space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="newMatchSport" class="block text-xs font-medium text-slate-300 mb-1.5">Sport</label>
+          <select id="newMatchSport" class="track-select w-full px-3.5 py-2 text-sm">
+            <% sports.forEach((s) => { %>
+              <option value="<%= s.name %>"><%= s.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label for="newMatchStatus" class="block text-xs font-medium text-slate-300 mb-1.5">Status</label>
+          <select id="newMatchStatus" class="track-select w-full px-3.5 py-2 text-sm">
+            <option value="Upcoming">Upcoming</option>
+            <option value="Ongoing">Ongoing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="newMatchTeamA" class="block text-xs font-medium text-slate-300 mb-1.5">Team A</label>
+          <input type="text" id="newMatchTeamA" required placeholder="e.g. MCA Mavericks" class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="newMatchTeamB" class="block text-xs font-medium text-slate-300 mb-1.5">Team B</label>
+          <input type="text" id="newMatchTeamB" required placeholder="e.g. BCA Strikers" class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="newMatchDate" class="block text-xs font-medium text-slate-300 mb-1.5">Date</label>
+          <input type="date" id="newMatchDate" required value="2026-11-26" class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="newMatchVenue" class="block text-xs font-medium text-slate-300 mb-1.5">Venue</label>
+          <input type="text" id="newMatchVenue" required placeholder="e.g. Main Stadium Pitch" class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center justify-end gap-3">
+        <button type="button" id="cancelAddMatchModalBtn" class="btn-outline px-4 py-2 text-xs">Cancel</button>
+        <button type="submit" class="btn-electric px-4 py-2 text-xs">Add Fixture (Demo)</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

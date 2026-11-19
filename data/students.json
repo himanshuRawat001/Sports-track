@@ -1,0 +1,292 @@
+[
+  {
+    "id": "STU001",
+    "name": "Aarav Sharma",
+    "department": "MCA",
+    "year": "Second Year",
+    "primarySport": "Cricket",
+    "registeredSports": ["Cricket", "Badminton", "Athletics"],
+    "matchesPlayed": 18,
+    "wins": 14,
+    "losses": 4,
+    "points": 1420,
+    "status": "Active",
+    "email": "aarav.sharma@college.edu",
+    "jerseyNumber": 18,
+    "role": "All-Rounder · Captain",
+    "avatar": "/images/aarav-sharma.jpg",
+    "achievements": [
+      {
+        "title": "Inter-Department Cricket MVP",
+        "event": "Autumn Trophy 2026",
+        "date": "Oct 2026",
+        "metric": "312 Runs & 11 Wickets"
+      },
+      {
+        "title": "100m Track Silver Medalist",
+        "event": "Annual Athletics Meet",
+        "date": "Sep 2026",
+        "metric": "11.42s Personal Best"
+      },
+      {
+        "title": "Badminton Quarterfinalist",
+        "event": "Monsoon Open Singles",
+        "date": "Aug 2026",
+        "metric": "4 Consecutive Wins"
+      }
+    ],
+    "performanceHistory": [
+      { "month": "Jun", "matches": 2, "wins": 1, "rating": 72 },
+      { "month": "Jul", "matches": 3, "wins": 2, "rating": 76 },
+      { "month": "Aug", "matches": 3, "wins": 2, "rating": 80 },
+      { "month": "Sep", "matches": 4, "wins": 3, "rating": 84 },
+      { "month": "Oct", "matches": 3, "wins": 3, "rating": 90 },
+      { "month": "Nov", "matches": 3, "wins": 3, "rating": 93 }
+    ]
+  },
+  {
+    "id": "STU002",
+    "name": "Diya Nair",
+    "department": "B.Tech CSE",
+    "year": "Third Year",
+    "primarySport": "Badminton",
+    "registeredSports": ["Badminton", "Table Tennis"],
+    "matchesPlayed": 20,
+    "wins": 17,
+    "losses": 3,
+    "points": 1580,
+    "status": "Active",
+    "email": "diya.nair@college.edu",
+    "jerseyNumber": 7,
+    "role": "Singles Seed #1",
+    "avatar": "",
+    "achievements": [
+      { "title": "Campus Badminton Champion", "event": "Monsoon Open 2026", "date": "Oct 2026", "metric": "Unbeaten in 6 Rounds" }
+    ],
+    "performanceHistory": [
+      { "month": "Jun", "matches": 3, "wins": 2, "rating": 78 },
+      { "month": "Jul", "matches": 3, "wins": 3, "rating": 83 },
+      { "month": "Aug", "matches": 4, "wins": 3, "rating": 85 },
+      { "month": "Sep", "matches": 3, "wins": 3, "rating": 89 },
+      { "month": "Oct", "matches": 4, "wins": 3, "rating": 91 },
+      { "month": "Nov", "matches": 3, "wins": 3, "rating": 95 }
+    ]
+  },
+  {
+    "id": "STU003",
+    "name": "Rohan Deshmukh",
+    "department": "MBA",
+    "year": "First Year",
+    "primarySport": "Football",
+    "registeredSports": ["Football", "Athletics"],
+    "matchesPlayed": 16,
+    "wins": 12,
+    "losses": 4,
+    "points": 1340,
+    "status": "Active",
+    "email": "rohan.deshmukh@college.edu",
+    "jerseyNumber": 10,
+    "role": "Central Striker",
+    "avatar": "",
+    "achievements": [
+      { "title": "Golden Boot Leader", "event": "Collegiate Super League", "date": "Oct 2026", "metric": "11 Goals in 8 Matches" }
+    ],
+    "performanceHistory": [
+      { "month": "Jun", "matches": 2, "wins": 1, "rating": 74 },
+      { "month": "Jul", "matches": 3, "wins": 2, "rating": 79 },
+      { "month": "Aug", "matches": 3, "wins": 2, "rating": 82 },
+      { "month": "Sep", "matches": 3, "wins": 3, "rating": 86 },
+      { "month": "Oct", "matches": 3, "wins": 2, "rating": 87 },
+      { "month": "Nov", "matches": 2, "wins": 2, "rating": 90 }
+    ]
+  },
+  {
+    "id": "STU004",
+    "name": "Ananya Iyer",
+    "department": "MCA",
+    "year": "Second Year",
+    "primarySport": "Basketball",
+    "registeredSports": ["Basketball", "Volleyball"],
+    "matchesPlayed": 15,
+    "wins": 12,
+    "losses": 3,
+    "points": 1310,
+    "status": "Active",
+    "email": "ananya.iyer@college.edu",
+    "jerseyNumber": 23,
+    "role": "Point Guard",
+    "avatar": "",
+    "achievements": [
+      { "title": "Most Assists in Season", "event": "Inter-Dept Hoops", "date": "Oct 2026", "metric": "6.8 Assists / Game" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU005",
+    "name": "Kabir Malhotra",
+    "department": "B.Tech ECE",
+    "year": "Fourth Year",
+    "primarySport": "Athletics",
+    "registeredSports": ["Athletics", "Football"],
+    "matchesPlayed": 12,
+    "wins": 10,
+    "losses": 2,
+    "points": 1290,
+    "status": "Active",
+    "email": "kabir.malhotra@college.edu",
+    "jerseyNumber": 4,
+    "role": "100m & 4x100m Anchor",
+    "avatar": "",
+    "achievements": [
+      { "title": "Track Sprint Gold", "event": "Annual Athletics Meet", "date": "Sep 2026", "metric": "11.18s College Record" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU006",
+    "name": "Priya Kulkarni",
+    "department": "BCA",
+    "year": "Third Year",
+    "primarySport": "Volleyball",
+    "registeredSports": ["Volleyball", "Basketball"],
+    "matchesPlayed": 14,
+    "wins": 10,
+    "losses": 4,
+    "points": 1180,
+    "status": "Active",
+    "email": "priya.kulkarni@college.edu",
+    "jerseyNumber": 12,
+    "role": "Outside Hitter",
+    "avatar": "",
+    "achievements": [
+      { "title": "Best Spiker Award", "event": "Pavilion Cup 2026", "date": "Oct 2026", "metric": "78% Kill Efficiency" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU007",
+    "name": "Siddharth Verma",
+    "department": "M.Sc CS",
+    "year": "First Year",
+    "primarySport": "Chess",
+    "registeredSports": ["Chess", "Table Tennis"],
+    "matchesPlayed": 19,
+    "wins": 15,
+    "losses": 4,
+    "points": 1490,
+    "status": "Active",
+    "email": "siddharth.verma@college.edu",
+    "jerseyNumber": 1,
+    "role": "Board 1 · FIDE 1840",
+    "avatar": "",
+    "achievements": [
+      { "title": "Rapid Swiss Champion", "event": "Checkmate Classic", "date": "Nov 2026", "metric": "6.5 / 7 Points" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU008",
+    "name": "Meera Krishnan",
+    "department": "B.Tech CSE",
+    "year": "Second Year",
+    "primarySport": "Table Tennis",
+    "registeredSports": ["Table Tennis", "Badminton"],
+    "matchesPlayed": 16,
+    "wins": 12,
+    "losses": 4,
+    "points": 1260,
+    "status": "Active",
+    "email": "meera.krishnan@college.edu",
+    "jerseyNumber": 9,
+    "role": "Singles & Mixed Doubles",
+    "avatar": "",
+    "achievements": [
+      { "title": "Table Tennis Runner-Up", "event": "Autumn Open", "date": "Oct 2026", "metric": "3-2 Finalist" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU009",
+    "name": "Vikramaditya Rao",
+    "department": "MCA",
+    "year": "First Year",
+    "primarySport": "Cricket",
+    "registeredSports": ["Cricket"],
+    "matchesPlayed": 14,
+    "wins": 10,
+    "losses": 4,
+    "points": 1150,
+    "status": "Active",
+    "email": "vikram.rao@college.edu",
+    "jerseyNumber": 45,
+    "role": "Fast Bowler",
+    "avatar": "",
+    "achievements": [
+      { "title": "Best Bowling Figures", "event": "Autumn Trophy", "date": "Oct 2026", "metric": "4/14 in 3 Overs" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU010",
+    "name": "Ishita Sen",
+    "department": "MBA",
+    "year": "Second Year",
+    "primarySport": "Basketball",
+    "registeredSports": ["Basketball"],
+    "matchesPlayed": 13,
+    "wins": 9,
+    "losses": 4,
+    "points": 1090,
+    "status": "Active",
+    "email": "ishita.sen@college.edu",
+    "jerseyNumber": 14,
+    "role": "Power Forward",
+    "avatar": "",
+    "achievements": [
+      { "title": "Top Rebounder", "event": "Inter-Dept Hoops", "date": "Sep 2026", "metric": "11.2 Rebounds / Game" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU011",
+    "name": "Arjun Patel",
+    "department": "B.Tech IT",
+    "year": "Third Year",
+    "primarySport": "Football",
+    "registeredSports": ["Football", "Cricket"],
+    "matchesPlayed": 15,
+    "wins": 10,
+    "losses": 5,
+    "points": 1120,
+    "status": "Rested",
+    "email": "arjun.patel@college.edu",
+    "jerseyNumber": 5,
+    "role": "Center Back",
+    "avatar": "",
+    "achievements": [
+      { "title": "Clean Sheet Streak", "event": "Super League", "date": "Sep 2026", "metric": "4 Straight Clean Sheets" }
+    ],
+    "performanceHistory": []
+  },
+  {
+    "id": "STU012",
+    "name": "Tanvi Deshpande",
+    "department": "BCA",
+    "year": "Second Year",
+    "primarySport": "Chess",
+    "registeredSports": ["Chess"],
+    "matchesPlayed": 14,
+    "wins": 10,
+    "losses": 4,
+    "points": 1160,
+    "status": "Active",
+    "email": "tanvi.deshpande@college.edu",
+    "jerseyNumber": 3,
+    "role": "Board 2 · Tactician",
+    "avatar": "",
+    "achievements": [
+      { "title": "Best Tactical Game", "event": "Checkmate Classic", "date": "Nov 2026", "metric": "22-Move Sacrifice Win" }
+    ],
+    "performanceHistory": []
+  }
+]

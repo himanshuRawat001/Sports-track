@@ -1,0 +1,6 @@
+{
+  "name": "Track — College Sports Management & Performance Tracking",
+  "description": "Centralized college sports management, match scheduling, athlete performance analytics, and leaderboard platform built with Express.js and EJS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

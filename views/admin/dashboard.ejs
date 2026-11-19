@@ -1,0 +1,156 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/adminSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Admin Portal / Overview</p>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="/admin/matches" class="btn-outline px-3.5 py-1.5 text-xs">Schedule Match</a>
+        <a href="/admin/results" class="btn-electric px-3.5 py-1.5 text-xs">Log Result</a>
+      </div>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+      <section class="pb-5 border-b border-white/10">
+        <p class="text-sm text-blue-400 font-medium">Campus Athletics Administration</p>
+        <h1 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Sports Operations Dashboard</h1>
+      </section>
+
+      <!-- 6 Admin Statistics Cards -->
+      <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Total Students</p>
+          <p class="mt-2 text-2xl font-bold text-white font-display font-mono-num"><%= stats.totalStudents %></p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Registered Athletes</p>
+          <p class="mt-2 text-2xl font-bold text-blue-400 font-display font-mono-num"><%= stats.registeredAthletes %></p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Total Sports</p>
+          <p class="mt-2 text-2xl font-bold text-white font-display font-mono-num"><%= stats.availableSports %></p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Total Matches</p>
+          <p class="mt-2 text-2xl font-bold text-white font-display font-mono-num"><%= stats.totalScheduledMatches %></p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Completed Matches</p>
+          <p class="mt-2 text-2xl font-bold text-emerald-400 font-display font-mono-num"><%= stats.matchesCompleted %></p>
+        </div>
+        <div class="track-card p-5">
+          <p class="text-xs text-slate-400">Upcoming Fixtures</p>
+          <p class="mt-2 text-2xl font-bold text-amber-400 font-display font-mono-num"><%= stats.sampleUpcomingMatches %></p>
+        </div>
+      </section>
+
+      <!-- Charts Section -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="track-card p-6 lg:col-span-8">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <h2 class="text-lg font-bold text-white">Sports Participation Breakdown</h2>
+              <p class="text-xs text-slate-400">Registered student athletes across all 8 disciplines</p>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas
+              id="adminSportsParticipationChart"
+              data-sports='<%- JSON.stringify(sports.map(s => ({ name: s.name, count: s.registeredStudents }))) %>'
+            ></canvas>
+          </div>
+        </div>
+
+        <div class="track-card p-6 lg:col-span-4">
+          <div class="mb-5">
+            <h2 class="text-lg font-bold text-white">Recent Activity</h2>
+            <p class="text-xs text-slate-400">Latest departmental updates</p>
+          </div>
+          <div class="space-y-4">
+            <% recentActivities.forEach((act) => { %>
+              <div class="pb-3.5 border-b border-white/10 last:border-b-0 last:pb-0">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-xs font-semibold text-blue-400"><%= act.action %></p>
+                  <span class="text-xs text-slate-500"><%= act.time %></span>
+                </div>
+                <p class="mt-1 text-xs text-slate-300 leading-relaxed"><%= act.detail %></p>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Match Results & Student Performance Overview -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="track-card p-6 lg:col-span-6">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-lg font-bold text-white">Recent Match Results</h2>
+            <a href="/admin/results" class="text-xs font-medium text-blue-400 hover:text-blue-300">Manage Results</a>
+          </div>
+          <div class="track-table-wrap">
+            <table class="track-table">
+              <thead>
+                <tr>
+                  <th>Sport</th>
+                  <th>Matchup</th>
+                  <th>Score</th>
+                  <th class="text-right">Winner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% completedResults.forEach((r) => { %>
+                  <tr>
+                    <td class="font-medium text-white"><%= r.sport %></td>
+                    <td class="text-xs"><%= r.teamA %> vs <%= r.teamB %></td>
+                    <td class="font-mono-num text-xs text-blue-400"><%= r.scoreDisplay %></td>
+                    <td class="text-right text-xs font-semibold text-emerald-400"><%= r.winner %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="track-card p-6 lg:col-span-6">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-lg font-bold text-white">Student Performance Overview</h2>
+            <a href="/admin/students" class="text-xs font-medium text-blue-400 hover:text-blue-300">All Students</a>
+          </div>
+          <div class="track-table-wrap">
+            <table class="track-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Athlete</th>
+                  <th>Primary Sport</th>
+                  <th class="text-right">Win %</th>
+                  <th class="text-right">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% students.forEach((st) => { %>
+                  <tr>
+                    <td class="font-mono-num text-xs text-slate-400"><%= st.id %></td>
+                    <td class="font-medium text-white"><%= st.name %></td>
+                    <td class="text-xs text-slate-300"><%= st.primarySport %></td>
+                    <td class="text-right font-mono-num text-xs text-emerald-400"><%= st.winPercentage %>%</td>
+                    <td class="text-right font-mono-num text-xs font-semibold text-blue-400"><%= st.points %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

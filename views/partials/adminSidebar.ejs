@@ -1,0 +1,76 @@
+<div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+<aside id="portalSidebar" class="dashboard-sidebar" aria-label="Admin portal navigation">
+  <!-- Brand Header -->
+  <div class="h-16 px-5 flex items-center justify-between border-b border-white/10 shrink-0">
+    <a href="/" class="flex items-center gap-2.5 text-lg font-bold text-white font-display whitespace-nowrap">
+      <span class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
+        <i data-lucide="activity" class="w-4 h-4"></i>
+      </span>
+      <span>Track Admin</span>
+    </a>
+    <button type="button" id="sidebarCloseBtn" class="lg:hidden p-1.5 text-slate-400 hover:text-white" aria-label="Close sidebar">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+  </div>
+
+  <!-- Admin Management Navigation -->
+  <div class="flex-1 overflow-y-auto px-3 py-5 space-y-6">
+    <div>
+      <p class="px-3 mb-2 text-xs font-medium text-slate-500">Administration</p>
+      <nav class="space-y-1">
+        <a href="/admin/dashboard" class="sidebar-link <%= activePage === 'dashboard' ? 'is-active' : '' %>">
+          <i data-lucide="layout-grid" class="w-4 h-4 shrink-0"></i>
+          <span>Overview</span>
+        </a>
+        <a href="/admin/students" class="sidebar-link <%= activePage === 'students' ? 'is-active' : '' %>">
+          <i data-lucide="users" class="w-4 h-4 shrink-0"></i>
+          <span>Manage Students</span>
+        </a>
+        <a href="/admin/sports" class="sidebar-link <%= activePage === 'sports' ? 'is-active' : '' %>">
+          <i data-lucide="dumbbell" class="w-4 h-4 shrink-0"></i>
+          <span>Manage Sports</span>
+        </a>
+        <a href="/admin/matches" class="sidebar-link <%= activePage === 'matches' ? 'is-active' : '' %>">
+          <i data-lucide="calendar-plus" class="w-4 h-4 shrink-0"></i>
+          <span>Manage Matches</span>
+        </a>
+        <a href="/admin/results" class="sidebar-link <%= activePage === 'results' ? 'is-active' : '' %>">
+          <i data-lucide="clipboard-check" class="w-4 h-4 shrink-0"></i>
+          <span>Manage Results</span>
+        </a>
+        <a href="/admin/rankings" class="sidebar-link <%= activePage === 'rankings' ? 'is-active' : '' %>">
+          <i data-lucide="medal" class="w-4 h-4 shrink-0"></i>
+          <span>Rankings</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="pt-4 border-t border-white/10">
+      <p class="px-3 mb-2 text-xs font-medium text-slate-500">Switch View</p>
+      <nav class="space-y-1">
+        <a href="/" class="sidebar-link">
+          <i data-lucide="globe" class="w-4 h-4 shrink-0"></i>
+          <span>Public Home</span>
+        </a>
+        <a href="/student/dashboard" class="sidebar-link">
+          <i data-lucide="user-check" class="w-4 h-4 shrink-0"></i>
+          <span>Student Portal</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Admin Coordinator Footer -->
+  <div class="p-4 border-t border-white/10 shrink-0">
+    <div class="flex items-center gap-3 p-2">
+      <div class="w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-xs font-bold text-blue-400 shrink-0">
+        SC
+      </div>
+      <div class="min-w-0">
+        <p class="text-sm font-semibold text-white truncate">Sports Coordinator</p>
+        <p class="text-xs text-slate-400 truncate">Department of Athletics</p>
+      </div>
+    </div>
+  </div>
+</aside>

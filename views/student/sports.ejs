@@ -1,0 +1,158 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/studentSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Student Portal / Explore Sports</p>
+      </div>
+      <a href="/student/matches" class="btn-outline px-3.5 py-1.5 text-xs">View Fixtures</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Explore Campus Sports</h1>
+          <p class="mt-1 text-sm text-slate-400">Browse all eight collegiate disciplines, coaching schedules, and squad details.</p>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full md:w-72">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <input
+            type="search"
+            id="studentSportSearch"
+            placeholder="Search sports or venues..."
+            class="track-input w-full pl-10 pr-4 py-2 text-sm"
+          />
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter sports by category">
+        <% ['All', 'Team Sport', 'Racquet Sport', 'Track & Field', 'Mind Sport'].forEach((cat, idx) => { %>
+          <button
+            type="button"
+            class="sport-cat-filter px-3.5 py-1.5 text-xs font-medium rounded-lg border transition-colors whitespace-nowrap <%= idx === 0 ? 'bg-blue-600 text-white border-blue-500' : 'bg-[#111B30] text-slate-300 border-white/10 hover:text-white' %>"
+            data-category="<%= cat %>"
+          >
+            <%= cat %>
+          </button>
+        <% }) %>
+      </div>
+
+      <!-- 8 Sports Grid -->
+      <div id="studentSportsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <% sports.forEach((sport) => {
+          const isEnrolled = student.registeredSports.includes(sport.name);
+        %>
+          <article
+            id="<%= sport.slug %>"
+            class="track-card track-card-hover overflow-hidden flex flex-col sport-card-item"
+            data-name="<%= sport.name.toLowerCase() %>"
+            data-category="<%= sport.category %>"
+            data-venue="<%= sport.venue.toLowerCase() %>"
+          >
+            <div class="media-frame aspect-[4/3]">
+              <img
+                src="<%= sport.image %>"
+                alt="<%= sport.name %>"
+                referrerpolicy="no-referrer"
+                class="w-full h-full object-cover"
+                onerror="this.style.display='none'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111B30] via-transparent to-transparent"></div>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between gap-4">
+              <div>
+                <p class="text-xs text-slate-400">
+                  <span><%= sport.category %></span>
+                  <span class="mx-1.5" aria-hidden="true">&middot;</span>
+                  <span class="tabular-nums"><%= sport.registeredStudents %> Students</span>
+                </p>
+                <h2 class="mt-1.5 text-lg font-bold text-white"><%= sport.name %></h2>
+                <p class="mt-2 text-xs text-slate-400 leading-relaxed line-clamp-3"><%= sport.description %></p>
+              </div>
+
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                <span class="text-xs font-medium <%= isEnrolled ? 'text-emerald-400' : 'text-slate-500' %>">
+                  <%= isEnrolled ? 'Enrolled' : 'Open Trials' %>
+                </span>
+                <button
+                  type="button"
+                  class="btn-outline px-3 py-1.5 text-xs view-sport-details-btn"
+                  data-sport='<%- JSON.stringify(sport) %>'
+                  data-enrolled="<%= isEnrolled %>"
+                >
+                  View Details
+                </button>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+
+      <div id="studentSportsEmpty" class="hidden track-card p-10 text-center">
+        <p class="text-sm text-slate-300">No sports match your current filter.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Sport Details Modal -->
+<div id="sportDetailModal" class="track-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="sportModalTitle">
+  <div class="track-card w-full max-w-lg overflow-hidden shadow-2xl">
+    <div class="media-frame h-48">
+      <img id="sportModalImage" src="" alt="" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#111B30] via-[#111B30]/40 to-transparent"></div>
+      <button type="button" id="closeSportModalBtn" class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-[#070D19]/80 text-slate-200 hover:text-white flex items-center justify-center border border-white/10" aria-label="Close modal">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <div class="p-6 space-y-4">
+      <div>
+        <p id="sportModalMeta" class="text-xs text-blue-400 font-medium"></p>
+        <h3 id="sportModalTitle" class="mt-1 text-2xl font-bold text-white"></h3>
+        <p id="sportModalDesc" class="mt-2 text-sm text-slate-300 leading-relaxed"></p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+        <div class="p-3 rounded-lg bg-[#0B1324] border border-white/10">
+          <p class="text-slate-500">Venue</p>
+          <p id="sportModalVenue" class="mt-1 font-medium text-white"></p>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0B1324] border border-white/10">
+          <p class="text-slate-500">Practice Schedule</p>
+          <p id="sportModalSchedule" class="mt-1 font-medium text-white"></p>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0B1324] border border-white/10">
+          <p class="text-slate-500">Head Coach</p>
+          <p id="sportModalCoach" class="mt-1 font-medium text-white"></p>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0B1324] border border-white/10">
+          <p class="text-slate-500">Tournament Format</p>
+          <p id="sportModalFormat" class="mt-1 font-medium text-white"></p>
+        </div>
+      </div>
+
+      <div class="p-3 rounded-lg bg-[#0B1324] border border-white/10 text-xs">
+        <p class="text-slate-500">Key Rules</p>
+        <p id="sportModalRules" class="mt-1 text-slate-300"></p>
+      </div>
+
+      <div class="pt-2 flex items-center justify-end gap-3">
+        <button type="button" id="cancelSportModalBtn" class="btn-outline px-4 py-2 text-xs">Close</button>
+        <button type="button" id="demoJoinSportBtn" class="btn-electric px-4 py-2 text-xs">Register Interest (Demo)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

@@ -1,0 +1,286 @@
+<%- include('layouts/main', { section: 'top', pageTitle }) %>
+<%- include('partials/navbar', { activeNav }) %>
+
+<main>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden border-b border-white/10">
+    <div class="absolute inset-0">
+      <img
+        src="/images/hero-arena.jpg"
+        alt="Collegiate multi-sport stadium and athletic running track under floodlights"
+        referrerpolicy="no-referrer"
+        class="w-full h-full object-cover object-center"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#070D19] via-[#070D19]/88 to-[#070D19]/45"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#070D19] via-transparent to-[#070D19]/40"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+      <div class="max-w-2xl space-y-6">
+        <p class="text-sm font-medium text-blue-400">
+          Campus Athletics &amp; Performance Platform
+        </p>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.08] tracking-tight" style="text-wrap: balance;">
+          College sports records, fixtures, and rankings in one system.
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
+          Track replaces scattered spreadsheets with a unified platform where students follow tournament schedules, monitor match statistics, and compete across eight collegiate disciplines.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="/student/sports" class="btn-electric px-6 py-3 text-sm sm:text-base">
+            <span>Explore Sports</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="/student/leaderboard" class="btn-outline px-6 py-3 text-sm sm:text-base">
+            <span>View Leaderboard</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Statistics Strip -->
+  <section class="border-b border-white/10 bg-[#0B1324]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div class="lg:border-r lg:border-white/10 pr-4">
+          <p class="text-xs font-medium text-slate-400">Total Students</p>
+          <p class="mt-1.5 text-3xl sm:text-4xl font-bold text-white font-display font-mono-num"><%= platformStats.totalStudents %></p>
+          <p class="mt-1 text-xs text-slate-500">Enrolled across 6 departments</p>
+        </div>
+        <div class="lg:border-r lg:border-white/10 pr-4">
+          <p class="text-xs font-medium text-slate-400">Registered Athletes</p>
+          <p class="mt-1.5 text-3xl sm:text-4xl font-bold text-blue-400 font-display font-mono-num"><%= platformStats.registeredAthletes %></p>
+          <p class="mt-1 text-xs text-slate-500">Active tournament roster</p>
+        </div>
+        <div class="lg:border-r lg:border-white/10 pr-4">
+          <p class="text-xs font-medium text-slate-400">Available Sports</p>
+          <p class="mt-1.5 text-3xl sm:text-4xl font-bold text-white font-display font-mono-num"><%= platformStats.availableSports %></p>
+          <p class="mt-1 text-xs text-slate-500">Outdoor, indoor &amp; mind sports</p>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-slate-400">Matches Completed</p>
+          <p class="mt-1.5 text-3xl sm:text-4xl font-bold text-white font-display font-mono-num"><%= platformStats.matchesCompleted %></p>
+          <p class="mt-1 text-xs text-slate-500">Verified 2026 season fixtures</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Sports -->
+  <section id="sports" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+      <div>
+        <p class="text-sm font-medium text-blue-400">Disciplines</p>
+        <h2 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Featured Campus Sports</h2>
+      </div>
+      <a href="/student/sports" class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors whitespace-nowrap">
+        <span>All 8 Sports</span>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% featuredSports.forEach((sport) => { %>
+        <article class="track-card track-card-hover overflow-hidden flex flex-col">
+          <div class="media-frame aspect-[4/3]">
+            <img
+              src="<%= sport.image %>"
+              alt="<%= sport.name %> collegiate arena"
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111B30] via-transparent to-transparent"></div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between gap-4">
+            <div>
+              <p class="text-xs text-slate-400">
+                <span><%= sport.category %></span>
+                <span class="mx-1.5" aria-hidden="true">&middot;</span>
+                <span class="tabular-nums"><%= sport.registeredStudents %> Athletes</span>
+              </p>
+              <h3 class="mt-2 text-xl font-bold text-white"><%= sport.name %></h3>
+              <p class="mt-2 text-sm text-slate-400 leading-relaxed line-clamp-2"><%= sport.description %></p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex items-center justify-between text-sm">
+              <span class="text-xs text-slate-400 truncate max-w-[190px]"><%= sport.venue %></span>
+              <a href="/student/sports#<%= sport.slug %>" class="text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                <span>Details</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Upcoming & Ongoing Matches -->
+  <section id="matches" class="border-y border-white/10 bg-[#0B1324]/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div>
+          <p class="text-sm font-medium text-blue-400">Match Center</p>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Upcoming &amp; Live Fixtures</h2>
+        </div>
+        <a href="/student/matches" class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors whitespace-nowrap">
+          <span>Full Match Schedule</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <% upcomingMatches.forEach((match) => { %>
+          <div class="track-card p-6 flex flex-col justify-between gap-5">
+            <div class="flex items-center justify-between gap-4">
+              <p class="text-xs font-medium text-slate-400">
+                <span><%= match.sport %></span>
+                <span class="mx-1.5" aria-hidden="true">&middot;</span>
+                <span><%= match.round %></span>
+              </p>
+              <span class="text-xs font-semibold <%= match.status === 'Ongoing' ? 'text-blue-400' : 'text-amber-400' %>">
+                <%= match.status === 'Ongoing' ? 'Live Now' : 'Upcoming' %>
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <p class="text-lg font-bold text-white truncate"><%= match.teamA %></p>
+                <p class="text-xs text-slate-500 mt-0.5">vs</p>
+                <p class="text-lg font-bold text-white truncate"><%= match.teamB %></p>
+              </div>
+              <div class="text-right shrink-0">
+                <p class="text-sm font-semibold text-blue-400 font-mono-num"><%= match.scoreDisplay %></p>
+                <p class="text-xs text-slate-400 mt-1 tabular-nums"><%= match.formattedDate %> &middot; <%= match.time %></p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+              <span><%= match.venue %></span>
+              <span class="font-mono-num text-slate-500"><%= match.id %></span>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Athletes & Top Standings -->
+  <section id="athletes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <!-- Featured Athletes (Left 7 cols) -->
+      <div class="lg:col-span-7">
+        <div class="mb-8">
+          <p class="text-sm font-medium text-blue-400">Student Performers</p>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Featured Athletes</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <% featuredAthletes.forEach((athlete) => { %>
+            <a href="/student/profile?id=<%= athlete.id %>" class="track-card track-card-hover p-5 flex flex-col gap-4">
+              <div class="flex items-center gap-3.5">
+                <% if (athlete.avatar) { %>
+                  <img
+                    src="<%= athlete.avatar %>"
+                    alt="<%= athlete.name %>"
+                    referrerpolicy="no-referrer"
+                    class="w-12 h-12 rounded-full object-cover border border-white/15 shrink-0"
+                  />
+                <% } else { %>
+                  <div class="w-12 h-12 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sm font-bold text-blue-300 shrink-0">
+                    <%= athlete.initials %>
+                  </div>
+                <% } %>
+                <div class="min-w-0">
+                  <h3 class="text-base font-bold text-white truncate"><%= athlete.name %></h3>
+                  <p class="text-xs text-slate-400 truncate"><%= athlete.department %> &middot; <%= athlete.primarySport %></p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-center">
+                <div>
+                  <p class="text-xs text-slate-500">Matches</p>
+                  <p class="text-sm font-semibold text-white font-mono-num"><%= athlete.matchesPlayed %></p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500">Wins</p>
+                  <p class="text-sm font-semibold text-emerald-400 font-mono-num"><%= athlete.wins %></p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500">Points</p>
+                  <p class="text-sm font-semibold text-blue-400 font-mono-num"><%= athlete.points %></p>
+                </div>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Leaderboard Snapshot (Right 5 cols) -->
+      <div class="lg:col-span-5">
+        <div class="flex items-end justify-between gap-4 mb-8">
+          <div>
+            <p class="text-sm font-medium text-blue-400">Standings</p>
+            <h2 class="mt-1 text-2xl sm:text-3xl font-bold text-white">Top 5 Rankings</h2>
+          </div>
+          <a href="/student/leaderboard" class="text-sm font-medium text-blue-400 hover:text-blue-300 whitespace-nowrap">
+            Full Table
+          </a>
+        </div>
+
+        <div class="track-card overflow-hidden">
+          <div class="track-table-wrap">
+            <table class="track-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Athlete</th>
+                  <th>Sport</th>
+                  <th class="text-right">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% topLeaderboard.forEach((row) => { %>
+                  <tr>
+                    <td class="font-mono-num font-semibold text-white">#<%= row.rank %></td>
+                    <td>
+                      <a href="/student/profile?id=<%= row.studentId %>" class="font-medium text-white hover:text-blue-400 transition-colors">
+                        <%= row.name %>
+                      </a>
+                      <p class="text-xs text-slate-500"><%= row.department %></p>
+                    </td>
+                    <td class="text-slate-300"><%= row.sport %></td>
+                    <td class="text-right font-mono-num font-semibold text-blue-400"><%= row.points %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portal Quick Access Band -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+    <div class="track-card p-8 sm:p-10 bg-gradient-to-r from-[#111B30] to-[#132240] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+      <div class="max-w-xl space-y-2">
+        <h2 class="text-2xl font-bold text-white">Explore the Student &amp; Administrator Portals</h2>
+        <p class="text-sm text-slate-300">
+          Inspect live athlete statistics in the Student Portal, or manage campus rosters, match fixtures, and scorecards in the Admin Portal.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 shrink-0">
+        <a href="/student/dashboard" class="btn-electric px-5 py-2.5 text-sm">Open Student Portal</a>
+        <a href="/admin/dashboard" class="btn-outline px-5 py-2.5 text-sm">Open Admin Portal</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<%- include('layouts/main', { section: 'bottom' }) %>

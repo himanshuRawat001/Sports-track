@@ -1,0 +1,113 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/adminSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Admin Portal / Rankings</p>
+      </div>
+      <a href="/admin/students" class="btn-outline px-3.5 py-1.5 text-xs">Student Directory</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Performance Rankings &amp; Leaders</h1>
+          <p class="mt-1 text-sm text-slate-400">Overall standings, sport-wise filtering, most wins, and highest scoring athletes.</p>
+        </div>
+
+        <select id="adminRankingsSportFilter" class="track-select px-3.5 py-2 text-xs w-52">
+          <option value="All">Overall · All Sports</option>
+          <% sports.forEach((s) => { %>
+            <option value="<%= s.name %>"><%= s.name %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- Most Wins & Highest Scoring Highlights -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="track-card p-6">
+          <h2 class="text-lg font-bold text-white mb-4">Most Wins Leaders</h2>
+          <div class="space-y-3">
+            <% mostWins.forEach((item, index) => { %>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-[#0B1324] border border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-mono-num text-xs font-bold text-blue-400 w-6">#<%= index + 1 %></span>
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-white truncate"><%= item.name %></p>
+                    <p class="text-xs text-slate-400"><%= item.sport %> &middot; <%= item.department %></p>
+                  </div>
+                </div>
+                <span class="font-mono-num text-sm font-bold text-emerald-400 shrink-0"><%= item.wins %> Wins</span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="track-card p-6">
+          <h2 class="text-lg font-bold text-white mb-4">Highest Scoring Students</h2>
+          <div class="space-y-3">
+            <% highestPoints.forEach((item, index) => { %>
+              <div class="flex items-center justify-between p-3 rounded-lg bg-[#0B1324] border border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-mono-num text-xs font-bold text-amber-400 w-6">#<%= index + 1 %></span>
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-white truncate"><%= item.name %></p>
+                    <p class="text-xs text-slate-400"><%= item.sport %> &middot; <%= item.winPercentage %>% Win Rate</p>
+                  </div>
+                </div>
+                <span class="font-mono-num text-sm font-bold text-blue-400 shrink-0"><%= item.points %> pts</span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sport-wise & Overall Leaderboard Table -->
+      <section class="track-card overflow-hidden">
+        <div class="px-6 py-4 border-b border-white/10">
+          <h2 class="text-base font-bold text-white">Official Standings Table</h2>
+        </div>
+        <div class="track-table-wrap">
+          <table class="track-table" id="adminRankingsTable">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Student</th>
+                <th>Student ID</th>
+                <th>Department</th>
+                <th>Sport</th>
+                <th class="text-right">Played</th>
+                <th class="text-right">Wins</th>
+                <th class="text-right">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% leaderboard.forEach((row) => { %>
+                <tr class="admin-ranking-row" data-sport="<%= row.sport %>">
+                  <td class="font-mono-num font-bold text-blue-400">#<%= row.rank %></td>
+                  <td class="font-semibold text-white">
+                    <a href="/student/profile?id=<%= row.studentId %>" class="hover:text-blue-400 transition-colors"><%= row.name %></a>
+                  </td>
+                  <td class="font-mono-num text-xs text-slate-400"><%= row.studentId %></td>
+                  <td class="text-slate-300"><%= row.department %></td>
+                  <td><%= row.sport %></td>
+                  <td class="text-right font-mono-num"><%= row.matchesPlayed %></td>
+                  <td class="text-right font-mono-num text-emerald-400"><%= row.wins %></td>
+                  <td class="text-right font-mono-num font-bold text-blue-400"><%= row.points %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

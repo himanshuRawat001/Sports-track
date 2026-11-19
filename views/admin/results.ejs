@@ -1,0 +1,104 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/adminSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Admin Portal / Manage Results</p>
+      </div>
+      <a href="/admin/rankings" class="btn-outline px-3.5 py-1.5 text-xs">Updated Rankings</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-white">Manage Match Results</h1>
+        <p class="mt-1 text-sm text-slate-400">Record final scores and declare official match winners locally.</p>
+      </div>
+
+      <!-- Enter Match Score Form -->
+      <section class="track-card p-6">
+        <h2 class="text-lg font-bold text-white mb-4">Enter Match Score &amp; Declare Winner</h2>
+        <form id="adminRecordResultForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
+          <div class="lg:col-span-2">
+            <label for="resultMatchSelect" class="block text-xs font-medium text-slate-300 mb-1.5">Select Pending / Live Match</label>
+            <select id="resultMatchSelect" class="track-select w-full px-3.5 py-2 text-sm">
+              <% pendingMatches.forEach((pm) => { %>
+                <option
+                  value="<%= pm.id %>"
+                  data-sport="<%= pm.sport %>"
+                  data-teama="<%= pm.teamA %>"
+                  data-teamb="<%= pm.teamB %>"
+                  data-date="<%= pm.formattedDate %>"
+                >
+                  <%= pm.id %> · <%= pm.sport %> (<%= pm.teamA %> vs <%= pm.teamB %>)
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div>
+            <label for="resultScoreInput" class="block text-xs font-medium text-slate-300 mb-1.5">Final Score</label>
+            <input type="text" id="resultScoreInput" required placeholder="e.g. 145/6 — 138/8" class="track-input w-full px-3.5 py-2 text-sm" />
+          </div>
+
+          <div>
+            <label for="resultWinnerSelect" class="block text-xs font-medium text-slate-300 mb-1.5">Declared Winner</label>
+            <select id="resultWinnerSelect" class="track-select w-full px-3.5 py-2 text-sm"></select>
+          </div>
+
+          <div>
+            <label for="resultMvpInput" class="block text-xs font-medium text-slate-300 mb-1.5">Match MVP</label>
+            <input type="text" id="resultMvpInput" placeholder="e.g. Aarav Sharma" class="track-input w-full px-3.5 py-2 text-sm" />
+          </div>
+
+          <div>
+            <button type="submit" class="btn-electric w-full py-2 px-4 text-sm">Declare Winner</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Completed Results Table -->
+      <section class="track-card overflow-hidden">
+        <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+          <h2 class="text-base font-bold text-white">Verified Match Results</h2>
+          <span class="text-xs text-slate-400 tabular-nums" id="completedResultsCount"><%= completedResults.length %> Completed</span>
+        </div>
+        <div class="track-table-wrap">
+          <table class="track-table">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Sport</th>
+                <th>Teams</th>
+                <th>Scores</th>
+                <th>Winner</th>
+                <th>MVP</th>
+                <th class="text-right">Date</th>
+              </tr>
+            </thead>
+            <tbody id="adminResultsTbody">
+              <% completedResults.forEach((resItem) => { %>
+                <tr>
+                  <td class="font-mono-num text-xs text-slate-400"><%= resItem.id %></td>
+                  <td class="font-medium text-white"><%= resItem.sport %></td>
+                  <td><%= resItem.teamA %> vs <%= resItem.teamB %></td>
+                  <td class="font-mono-num text-xs text-blue-400 font-semibold"><%= resItem.scoreDisplay %></td>
+                  <td class="font-semibold text-emerald-400"><%= resItem.winner %></td>
+                  <td class="text-xs text-slate-300"><%= resItem.mvp %></td>
+                  <td class="text-right font-mono-num text-xs text-slate-400 whitespace-nowrap"><%= resItem.formattedDate %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

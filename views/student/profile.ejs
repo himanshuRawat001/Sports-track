@@ -1,0 +1,159 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/studentSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Student Portal / Athlete Profile</p>
+      </div>
+      <a href="/student/leaderboard" class="btn-outline px-3.5 py-1.5 text-xs">Campus Rankings</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-6xl w-full mx-auto space-y-8">
+      <!-- Profile Header Card -->
+      <section class="track-card p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-5">
+          <% if (student.avatar) { %>
+            <img
+              src="<%= student.avatar %>"
+              alt="<%= student.name %>"
+              referrerpolicy="no-referrer"
+              class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-white/15 shrink-0"
+            />
+          <% } else { %>
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-2xl font-bold text-blue-300 shrink-0">
+              <%= student.initials %>
+            </div>
+          <% } %>
+
+          <div class="space-y-1.5">
+            <p class="text-xs font-mono-num text-blue-400"><%= student.id %> &middot; Jersey #<%= student.jerseyNumber %></p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-white"><%= student.name %></h1>
+            <p class="text-sm text-slate-300">
+              <span><%= student.department %></span>
+              <span class="mx-1.5 text-slate-500" aria-hidden="true">&middot;</span>
+              <span><%= student.year %></span>
+              <span class="mx-1.5 text-slate-500" aria-hidden="true">&middot;</span>
+              <span><%= student.role %></span>
+            </p>
+            <p class="text-xs text-slate-400"><%= student.email %></p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-4 md:pt-0 border-t md:border-t-0 border-white/10 text-center md:text-right">
+          <div>
+            <p class="text-xs text-slate-400">Campus Rank</p>
+            <p class="mt-1 text-2xl font-bold text-blue-400 font-display font-mono-num">#<%= studentRank %></p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400">Total Points</p>
+            <p class="mt-1 text-2xl font-bold text-white font-display font-mono-num"><%= student.points %></p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400">Status</p>
+            <p class="mt-1 text-sm font-semibold <%= student.status === 'Active' ? 'text-emerald-400' : 'text-amber-400' %>"><%= student.status %></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics & Registered Sports -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="track-card p-6 lg:col-span-5 space-y-5">
+          <h2 class="text-lg font-bold text-white">Season Statistics</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10">
+              <p class="text-xs text-slate-400">Matches Played</p>
+              <p class="mt-1 text-2xl font-bold text-white font-mono-num"><%= student.matchesPlayed %></p>
+            </div>
+            <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10">
+              <p class="text-xs text-slate-400">Win Rate</p>
+              <p class="mt-1 text-2xl font-bold text-blue-400 font-mono-num"><%= student.winPercentage %>%</p>
+            </div>
+            <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10">
+              <p class="text-xs text-slate-400">Wins</p>
+              <p class="mt-1 text-2xl font-bold text-emerald-400 font-mono-num"><%= student.wins %></p>
+            </div>
+            <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10">
+              <p class="text-xs text-slate-400">Losses</p>
+              <p class="mt-1 text-2xl font-bold text-rose-400 font-mono-num"><%= student.losses %></p>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/10">
+            <p class="text-xs text-slate-400 mb-2">Registered Sports</p>
+            <div class="flex flex-wrap gap-2">
+              <% student.registeredSports.forEach((sp) => { %>
+                <a href="/student/sports" class="px-3 py-1.5 rounded-lg bg-[#0B1324] border border-white/10 text-xs font-medium text-slate-200 hover:border-blue-500/40 transition-colors">
+                  <%= sp %>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="track-card p-6 lg:col-span-7 space-y-4">
+          <h2 class="text-lg font-bold text-white">Verified Achievements</h2>
+          <div class="space-y-3">
+            <% student.achievements.forEach((ach) => { %>
+              <div class="p-4 rounded-lg bg-[#0B1324] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-sm font-semibold text-white"><%= ach.title %></h3>
+                  <p class="text-xs text-slate-400 mt-0.5"><%= ach.event %> &middot; <%= ach.date %></p>
+                </div>
+                <span class="text-xs font-mono-num font-semibold text-blue-400 shrink-0"><%= ach.metric %></span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance History -->
+      <section class="track-card p-6">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h2 class="text-lg font-bold text-white">Performance History</h2>
+            <p class="text-xs text-slate-400">Recent fixtures across registered sports (<%= student.registeredSports.join(', ') %>)</p>
+          </div>
+          <a href="/student/results" class="text-xs font-medium text-blue-400 hover:text-blue-300">All Results</a>
+        </div>
+
+        <div class="track-table-wrap">
+          <table class="track-table">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Sport</th>
+                <th>Teams</th>
+                <th>Round</th>
+                <th>Date</th>
+                <th>Score / Status</th>
+                <th class="text-right">Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% relevantMatches.forEach((m) => { %>
+                <tr>
+                  <td class="font-mono-num text-xs text-slate-400"><%= m.id %></td>
+                  <td class="font-medium text-white"><%= m.sport %></td>
+                  <td><%= m.teamA %> vs <%= m.teamB %></td>
+                  <td class="text-xs text-slate-400"><%= m.round %></td>
+                  <td class="font-mono-num text-xs text-slate-400"><%= m.formattedDate %></td>
+                  <td class="font-mono-num text-xs text-blue-400"><%= m.scoreDisplay %></td>
+                  <td class="text-right text-xs font-medium <%= m.winner === 'TBD' ? 'text-slate-400' : 'text-emerald-400' %>"><%= m.winner %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

@@ -1,0 +1,40 @@
+<%#
+  Shared HTML Document Layout Shell (main.ejs)
+  Usage:
+    include('../layouts/main', { section: 'top', pageTitle })
+    ... page content ...
+    include('../layouts/main', { section: 'bottom' })
+-%>
+<% if (typeof section === 'undefined' || section === 'top') { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Track — College Sports Management' %></title>
+  <meta name="description" content="Track is a centralized college sports management, match scheduling, athlete performance tracking, and leaderboard platform." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/tailwind.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body class="min-h-screen bg-[#070D19] text-slate-100 antialiased selection:bg-blue-600/40 selection:text-white">
+<% } else { %>
+  <!-- Global Toast Notification for Frontend Interactions -->
+  <div id="trackToast" class="track-toast" role="status" aria-live="polite">
+    <div class="flex items-center gap-2.5 text-sm font-medium">
+      <i data-lucide="check-circle-2" class="w-4 h-4 text-blue-400 shrink-0"></i>
+      <span id="trackToastMessage">Action completed</span>
+    </div>
+  </div>
+
+  <!-- Local Vendor Libraries (No external CDN failure risk) -->
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
+<% } %>

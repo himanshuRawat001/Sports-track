@@ -1,0 +1,14 @@
+[
+  { "rank": 1, "studentId": "STU002", "name": "Diya Nair", "department": "B.Tech CSE", "sport": "Badminton", "matchesPlayed": 20, "wins": 17, "losses": 3, "points": 1580 },
+  { "rank": 2, "studentId": "STU007", "name": "Siddharth Verma", "department": "M.Sc CS", "sport": "Chess", "matchesPlayed": 19, "wins": 15, "losses": 4, "points": 1490 },
+  { "rank": 3, "studentId": "STU001", "name": "Aarav Sharma", "department": "MCA", "sport": "Cricket", "matchesPlayed": 18, "wins": 14, "losses": 4, "points": 1420 },
+  { "rank": 4, "studentId": "STU003", "name": "Rohan Deshmukh", "department": "MBA", "sport": "Football", "matchesPlayed": 16, "wins": 12, "losses": 4, "points": 1340 },
+  { "rank": 5, "studentId": "STU004", "name": "Ananya Iyer", "department": "MCA", "sport": "Basketball", "matchesPlayed": 15, "wins": 12, "losses": 3, "points": 1310 },
+  { "rank": 6, "studentId": "STU005", "name": "Kabir Malhotra", "department": "B.Tech ECE", "sport": "Athletics", "matchesPlayed": 12, "wins": 10, "losses": 2, "points": 1290 },
+  { "rank": 7, "studentId": "STU008", "name": "Meera Krishnan", "department": "B.Tech CSE", "sport": "Table Tennis", "matchesPlayed": 16, "wins": 12, "losses": 4, "points": 1260 },
+  { "rank": 8, "studentId": "STU006", "name": "Priya Kulkarni", "department": "BCA", "sport": "Volleyball", "matchesPlayed": 14, "wins": 10, "losses": 4, "points": 1180 },
+  { "rank": 9, "studentId": "STU012", "name": "Tanvi Deshpande", "department": "BCA", "sport": "Chess", "matchesPlayed": 14, "wins": 10, "losses": 4, "points": 1160 },
+  { "rank": 10, "studentId": "STU009", "name": "Vikramaditya Rao", "department": "MCA", "sport": "Cricket", "matchesPlayed": 14, "wins": 10, "losses": 4, "points": 1150 },
+  { "rank": 11, "studentId": "STU011", "name": "Arjun Patel", "department": "B.Tech IT", "sport": "Football", "matchesPlayed": 15, "wins": 10, "losses": 5, "points": 1120 },
+  { "rank": 12, "studentId": "STU010", "name": "Ishita Sen", "department": "MBA", "sport": "Basketball", "matchesPlayed": 13, "wins": 9, "losses": 4, "points": 1090 }
+]

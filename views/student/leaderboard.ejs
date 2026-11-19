@@ -1,0 +1,125 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/studentSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Student Portal / Leaderboard</p>
+      </div>
+      <a href="/student/profile" class="btn-outline px-3.5 py-1.5 text-xs">My Standing</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Campus Athlete Leaderboard</h1>
+          <p class="mt-1 text-sm text-slate-400">Overall season standings ranked by verified match points and win consistency.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="leaderboardSportFilter" class="track-select px-3.5 py-2 text-xs">
+            <option value="All">All Sports</option>
+            <% sports.forEach((s) => { %>
+              <option value="<%= s.name %>"><%= s.name %></option>
+            <% }) %>
+          </select>
+          <input
+            type="search"
+            id="leaderboardSearchInput"
+            placeholder="Search athlete or ID..."
+            class="track-input px-3.5 py-2 text-xs w-52"
+          />
+        </div>
+      </div>
+
+      <!-- Top 3 Performers Highlight -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <% topThree.forEach((athlete, idx) => { %>
+          <a href="/student/profile?id=<%= athlete.studentId %>" class="track-card track-card-hover p-6 flex flex-col justify-between gap-4 <%= idx === 0 ? 'border-blue-500/40 bg-[#131F38]' : '' %>">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-num text-sm font-bold <%= idx === 0 ? 'text-amber-400' : (idx === 1 ? 'text-slate-200' : 'text-amber-600') %>">
+                Rank #<%= athlete.rank %>
+              </span>
+              <span class="text-xs text-slate-400"><%= athlete.sport %></span>
+            </div>
+
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sm font-bold text-blue-300 shrink-0">
+                <%= athlete.initials %>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-lg font-bold text-white truncate"><%= athlete.name %></h2>
+                <p class="text-xs text-slate-400 truncate"><%= athlete.studentId %> &middot; <%= athlete.department %></p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
+              <div>
+                <p class="text-xs text-slate-500">Played</p>
+                <p class="text-sm font-semibold text-white font-mono-num"><%= athlete.matchesPlayed %></p>
+              </div>
+              <div>
+                <p class="text-xs text-slate-500">Wins</p>
+                <p class="text-sm font-semibold text-emerald-400 font-mono-num"><%= athlete.wins %></p>
+              </div>
+              <div>
+                <p class="text-xs text-slate-500">Points</p>
+                <p class="text-sm font-semibold text-blue-400 font-mono-num"><%= athlete.points %></p>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </section>
+
+      <!-- Full Standings Table -->
+      <section class="track-card overflow-hidden">
+        <div class="track-table-wrap">
+          <table class="track-table" id="studentLeaderboardTable">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Student Name</th>
+                <th>Student ID</th>
+                <th>Sport</th>
+                <th class="text-right">Played</th>
+                <th class="text-right">Wins</th>
+                <th class="text-right">Win %</th>
+                <th class="text-right">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% leaderboard.forEach((row) => { %>
+                <tr
+                  class="leaderboard-row <%= row.rank <= 3 ? 'bg-blue-500/[0.03]' : '' %>"
+                  data-sport="<%= row.sport %>"
+                  data-search="<%= (row.name + ' ' + row.studentId + ' ' + row.department).toLowerCase() %>"
+                >
+                  <td class="font-mono-num font-bold <%= row.rank <= 3 ? 'text-blue-400' : 'text-slate-300' %>">#<%= row.rank %></td>
+                  <td>
+                    <a href="/student/profile?id=<%= row.studentId %>" class="font-semibold text-white hover:text-blue-400 transition-colors">
+                      <%= row.name %>
+                    </a>
+                    <span class="ml-2 text-xs text-slate-500"><%= row.department %></span>
+                  </td>
+                  <td class="font-mono-num text-xs text-slate-400"><%= row.studentId %></td>
+                  <td class="text-slate-200"><%= row.sport %></td>
+                  <td class="text-right font-mono-num"><%= row.matchesPlayed %></td>
+                  <td class="text-right font-mono-num text-emerald-400"><%= row.wins %></td>
+                  <td class="text-right font-mono-num text-slate-300"><%= row.winPercentage %>%</td>
+                  <td class="text-right font-mono-num font-bold text-blue-400"><%= row.points %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

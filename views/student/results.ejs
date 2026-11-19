@@ -1,0 +1,83 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/studentSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Student Portal / Match Results</p>
+      </div>
+      <a href="/student/leaderboard" class="btn-electric px-3.5 py-1.5 text-xs">View Leaderboard</a>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Official Match Results</h1>
+          <p class="mt-1 text-sm text-slate-400">Completed tournament scores, declared winners, and match MVPs.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="resultSportFilter" class="track-select px-3.5 py-2 text-xs">
+            <option value="All">All Sport Categories</option>
+            <% sports.forEach((s) => { %>
+              <option value="<%= s.name %>"><%= s.name %></option>
+            <% }) %>
+          </select>
+          <input
+            type="search"
+            id="resultSearchInput"
+            placeholder="Search winner or team..."
+            class="track-input px-3.5 py-2 text-xs w-52"
+          />
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="track-card overflow-hidden">
+        <div class="track-table-wrap">
+          <table class="track-table" id="studentResultsTable">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Sport Category</th>
+                <th>Teams</th>
+                <th>Final Score</th>
+                <th>Winner</th>
+                <th>MVP</th>
+                <th class="text-right">Match Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% results.forEach((resItem) => { %>
+                <tr
+                  class="result-row"
+                  data-sport="<%= resItem.sport %>"
+                  data-search="<%= (resItem.teamA + ' ' + resItem.teamB + ' ' + resItem.winner + ' ' + resItem.sport).toLowerCase() %>"
+                >
+                  <td class="font-mono-num text-xs text-slate-400"><%= resItem.id %></td>
+                  <td class="font-medium text-white"><%= resItem.sport %></td>
+                  <td>
+                    <span class="text-slate-200"><%= resItem.teamA %></span>
+                    <span class="text-slate-500 mx-1">vs</span>
+                    <span class="text-slate-200"><%= resItem.teamB %></span>
+                  </td>
+                  <td class="font-mono-num text-xs text-blue-400 font-semibold"><%= resItem.scoreDisplay %></td>
+                  <td class="font-semibold text-emerald-400"><%= resItem.winner %></td>
+                  <td class="text-xs text-slate-300"><%= resItem.mvp %></td>
+                  <td class="text-right font-mono-num text-xs text-slate-400 whitespace-nowrap"><%= resItem.formattedDate %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>

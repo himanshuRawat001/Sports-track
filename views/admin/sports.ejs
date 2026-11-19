@@ -1,0 +1,135 @@
+<%- include('../layouts/main', { section: 'top', pageTitle }) %>
+
+<div class="dashboard-shell">
+  <%- include('../partials/adminSidebar', { activePage }) %>
+
+  <div class="dashboard-main">
+    <header class="dashboard-topbar">
+      <div class="flex items-center gap-3 min-w-0">
+        <button type="button" id="sidebarOpenBtn" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <p class="text-xs text-slate-400 truncate">Admin Portal / Manage Sports</p>
+      </div>
+      <button type="button" id="openAddSportModalBtn" class="btn-electric px-3.5 py-1.5 text-xs">
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        <span>Add Sport</span>
+      </button>
+    </header>
+
+    <main class="flex-1 p-5 sm:p-7 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">Manage Sports Disciplines</h1>
+          <p class="mt-1 text-sm text-slate-400">Add, update, or remove sports programs in this local prototype workspace.</p>
+        </div>
+      </div>
+
+      <!-- Sports Cards Grid -->
+      <div id="adminSportsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <% sports.forEach((sport) => { %>
+          <article class="track-card overflow-hidden flex flex-col admin-sport-card" data-sport-id="<%= sport.id %>">
+            <div class="media-frame aspect-[4/3]">
+              <img
+                src="<%= sport.image %>"
+                alt="<%= sport.name %>"
+                referrerpolicy="no-referrer"
+                class="w-full h-full object-cover"
+                onerror="this.style.display='none'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111B30] via-transparent to-transparent"></div>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between gap-4">
+              <div>
+                <p class="text-xs text-slate-400 sport-card-category"><%= sport.category %></p>
+                <h2 class="mt-1 text-lg font-bold text-white sport-card-name"><%= sport.name %></h2>
+                <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+                  <div class="p-2.5 rounded-lg bg-[#0B1324] border border-white/10">
+                    <p class="text-slate-500">Registered</p>
+                    <p class="mt-0.5 font-mono-num font-semibold text-white sport-card-students"><%= sport.registeredStudents %></p>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#0B1324] border border-white/10">
+                    <p class="text-slate-500">Matches</p>
+                    <p class="mt-0.5 font-mono-num font-semibold text-blue-400 sport-card-matches"><%= sport.matchesCount %></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-white/10 flex items-center gap-2">
+                <button
+                  type="button"
+                  class="btn-outline flex-1 py-1.5 text-xs edit-sport-btn"
+                  data-id="<%= sport.id %>"
+                  data-name="<%= sport.name %>"
+                  data-category="<%= sport.category %>"
+                  data-students="<%= sport.registeredStudents %>"
+                  data-matches="<%= sport.matchesCount %>"
+                >
+                  Edit Sport
+                </button>
+                <button
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-xs font-medium transition-colors remove-sport-btn"
+                  data-name="<%= sport.name %>"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add / Edit Sport Modal (Local Frontend State Demo) -->
+<div id="adminSportModal" class="track-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adminSportModalTitle">
+  <div class="track-card w-full max-w-md p-6 space-y-5 shadow-2xl">
+    <div class="flex items-center justify-between">
+      <h2 id="adminSportModalTitle" class="text-xl font-bold text-white">Add Sport</h2>
+      <button type="button" id="closeAdminSportModalBtn" class="p-1 text-slate-400 hover:text-white" aria-label="Close modal">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <form id="adminSportForm" class="space-y-4">
+      <input type="hidden" id="sportFormMode" value="add" />
+      <input type="hidden" id="sportFormId" value="" />
+
+      <div>
+        <label for="sportNameInput" class="block text-xs font-medium text-slate-300 mb-1.5">Sport Name</label>
+        <input type="text" id="sportNameInput" required placeholder="e.g. Lawn Tennis" class="track-input w-full px-3.5 py-2 text-sm" />
+      </div>
+
+      <div>
+        <label for="sportCategoryInput" class="block text-xs font-medium text-slate-300 mb-1.5">Category</label>
+        <select id="sportCategoryInput" class="track-select w-full px-3.5 py-2 text-sm">
+          <option value="Team Sport">Team Sport</option>
+          <option value="Racquet Sport">Racquet Sport</option>
+          <option value="Track & Field">Track &amp; Field</option>
+          <option value="Mind Sport">Mind Sport</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="sportStudentsInput" class="block text-xs font-medium text-slate-300 mb-1.5">Registered Students</label>
+          <input type="number" id="sportStudentsInput" min="1" value="16" required class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="sportMatchesInput" class="block text-xs font-medium text-slate-300 mb-1.5">Matches Count</label>
+          <input type="number" id="sportMatchesInput" min="0" value="4" required class="track-input w-full px-3.5 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center justify-end gap-3">
+        <button type="button" id="cancelAdminSportModalBtn" class="btn-outline px-4 py-2 text-xs">Cancel</button>
+        <button type="submit" class="btn-electric px-4 py-2 text-xs">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('../layouts/main', { section: 'bottom' }) %>
